@@ -1,0 +1,205 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+directive @range(max: Int!, min: Int!) on ARGUMENT_DEFINITION | INPUT_FIELD_DEFINITION
+
+type Group {
+    created_at: Time
+    description: String!
+    id: Int!
+    name: String!
+    slug: String!
+    tags: [Tag!]
+    updated_at: Time
+    user_id: Int!
+}
+
+type GroupsWithPagination {
+    items: [Group!]
+    pagination: Pagination!
+}
+
+type Mutation {
+    addGroup(g: AddGroupInput!): Group!
+    addPost(p: AddPostInput!): Post!
+    addTag(t: AddTagInput!): Tag!
+    addUser(u: UserInput!): User!
+    deleteGroup(id: Int!): Boolean
+    deletePost(id: Int!): Boolean
+    deleteTag(id: Int!): Boolean
+    deleteUser(id: Int!): Boolean
+    editGroup(g: EditGroupInput!): Group!
+    editPost(p: EditPostInput!): Post!
+    editProfile(u: UserInput!): User!
+    editTag(t: EditTagInput!): Tag!
+    editUser(id: Int!, u: UserInput!): User!
+    setUserRole(ur: UserRole!): Boolean
+    subscribe(sub: UserSubscriptionInput!): Boolean
+    unsetUserRole(ur: UserRole!): Boolean
+    unsubscribe(sub: UserSubscriptionInput!): Boolean
+}
+
+type Pagination {
+    countItems: Int!
+    countPages: Int!
+    page: Int!
+}
+
+type Post {
+    created_at: Time
+    group_id: Int!
+    id: Int!
+    tags: [Tag!]!
+    text: String!
+    title: String!
+    updated_at: Time
+    user_id: Int!
+}
+
+type PostsWithPagination {
+    items: [Post!]
+    pagination: Pagination
+}
+
+type Query {
+    showGroup(groupID: Int!): Group!
+    showGroups(o: OptionsInput): GroupsWithPagination!
+    showPost(id: Int!): Post
+    showPosts(o: OptionsInput): PostsWithPagination!
+    showSubscribedPosts(o: OptionsInput): PostsWithPagination!
+    showSubscriptions: UserSubscriptions!
+    showTag(id: Int!): Tag!
+    showTags(o: OptionsInput): TagsWithPagination!
+    showUser(id: Int!): User!
+    showUsers(o: OptionsInput): UsersWithPagination!
+}
+
+type Tag {
+    created_at: Time
+    id: Int!
+    name: String!
+    updated_at: Time
+}
+
+type TagsWithPagination {
+    items: [Tag!]!
+    pagination: Pagination
+}
+
+type User {
+    created_at: Time!
+    first_name: String!
+    id: Int!
+    last_name: String!
+    nickname: String!
+    updated_at: Time!
+}
+
+type UserSubscriptions {
+    groups: [Group!]
+    tags: [Tag!]
+    users: [User!]
+}
+
+type UsersWithPagination {
+    items: [User!]
+    pagination: Pagination
+}
+
+enum GroupSortEnum {
+    CREATED_DESC
+    ID_ASC
+    MOST_POPULAR
+    NEWEST
+    RATING_DESC
+}
+
+enum Model {
+    GROUP
+    TAG
+    USER
+}
+
+scalar Time
+
+input AddGroupInput {
+    description: String!
+    name: String!
+    tags: [Int!]!
+}
+
+input AddPostInput {
+    group_id: Int!
+    name: String!
+    tags: [Int!]!
+    text: String!
+}
+
+input AddTagInput {
+    name: String!
+}
+
+input EditGroupInput {
+    description: String!
+    name: String!
+    tags: [Int!]!
+}
+
+input EditPostInput {
+    id: Int!
+    name: String!
+    tags: [Int!]!
+    text: String!
+}
+
+input EditTagInput {
+    id: Int
+    name: String!
+}
+
+input GroupFilters {
+    tags: [Int!]!
+}
+
+input OptionsFilter {
+    by: String!
+    operator: String!
+    value: String!
+}
+
+input OptionsInput {
+    filters: [OptionsFilter!]
+    limit: Int
+    order_by: String
+    order_type: String
+    page: Int
+}
+
+input ShowGroupsOptions {
+    filters: [GroupFilters!]!
+    limit: Int! = 10
+    page: Int! = 1
+    sort: GroupSortEnum! = ID_ASC
+}
+
+input UserInput {
+    first_name: String!
+    last_name: String!
+    nickname: String!
+}
+
+input UserRole {
+    expires_At: Time
+    group_id: Int!
+    role_id: Int!
+    user_id: Int!
+}
+
+input UserSubscriptionInput {
+    model: Model!
+    model_id: Int!
+}

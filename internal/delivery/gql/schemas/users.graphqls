@@ -1,0 +1,68 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type User {
+    id: Int!
+    nickname: String!
+    first_name: String!
+    last_name: String!
+    created_at: Time!
+    updated_at: Time!
+}
+
+type UsersWithPagination {
+    items: [User!]
+    pagination: Pagination
+}
+
+input UserInput {
+    nickname: String!
+    first_name: String!
+    last_name: String!
+}
+
+input UserRole {
+    user_id: Int!
+    group_id: Int!
+    role_id: Int!
+    expires_At: Time
+}
+
+enum Model {
+    GROUP
+    USER
+    TAG
+}
+
+
+input UserSubscriptionInput {
+    model: Model!
+    model_id: Int!
+}
+
+type UserSubscriptions {
+    groups: [Group!]!
+    tags: [Tag!]!
+    users: [User!]!
+}
+
+
+type Query {
+    showUsers(o: OptionsInput): UsersWithPagination!
+    showUser(id: Int!): User!
+    showSubscriptions: UserSubscriptions!
+}
+
+type Mutation {
+    addUser(u: UserInput!): User!
+    editProfile(u: UserInput!): User!
+    editUser(id: Int!, u: UserInput!): User! # TODO two separate structs (AddUserInput, EditUserInput)
+    deleteUser(id: Int!): Boolean # Boolean instead null
+
+    setUserRole(ur: UserRole!): Boolean # Boolean instead null
+    unsetUserRole(ur: UserRole!): Boolean # Boolean instead null
+
+    subscribe(sub: UserSubscriptionInput!): Boolean # Boolean instead null
+    unsubscribe(sub: UserSubscriptionInput!): Boolean # Boolean instead null
+}

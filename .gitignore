@@ -1,0 +1,17 @@
+# ide
+.idea*
+.vscode*
+
+#config
+*.env
+
+#binary
+/build
+golangci-lint
+migrate-cli
+
+#logs
+.log*
+
+#vendor
+/vendor

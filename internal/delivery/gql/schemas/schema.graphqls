@@ -1,0 +1,28 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+directive @range(min: Int!, max: Int!) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+
+scalar Time
+
+input OptionsFilter  {
+    by       : String!
+    operator : String!
+    value    : String!
+}
+
+input OptionsInput {
+    page     : Int
+    limit    : Int
+    order_type: String
+    order_by  : String
+    filters  : [OptionsFilter!]
+}
+
+
+type Pagination {
+    page:   Int!
+    countPages: Int!
+    countItems: Int!
+}

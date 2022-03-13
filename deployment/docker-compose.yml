@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  database:
+    image: "postgres:14.1"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db-pq:/var/lib/postgresql/data/
+    ports:
+      - ${DB_PORT}:5432
+      - "5433:5433"
+    restart: on-failure
+    networks:
+      - community
+
+
+networks:
+  community:
+
+volumes:
+  db-pq:

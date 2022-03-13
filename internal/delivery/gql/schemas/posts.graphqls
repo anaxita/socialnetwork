@@ -1,0 +1,47 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+
+type Post  {
+    id         : Int!
+    user_id     : Int!
+    group_id    : Int!
+    title      : String!
+    text       : String!
+    tags       : [Tag!]!
+    created_at  : Time
+    updated_at  : Time
+}
+
+input AddPostInput  {
+    group_id    : Int!
+    name      : String!
+    text       : String!
+    tags       : [Int!]! @range(min: 1, max: 5)
+}
+
+input EditPostInput  {
+    id         : Int!
+    name      : String!
+    text       : String!
+    tags       : [Int!]! @range(min: 1, max: 5)
+}
+
+type PostsWithPagination {
+    items: [Post!]
+    pagination: Pagination
+}
+
+extend  type Query {
+    showPosts(o: OptionsInput): PostsWithPagination!
+    showSubscribedPosts(o: OptionsInput): PostsWithPagination!
+    showPost(id: Int!): Post
+
+}
+
+extend type Mutation {
+    addPost(p: AddPostInput!): Post!
+    editPost(p: EditPostInput!): Post!
+    deletePost(id: Int!): Boolean # Boolean instead null
+}

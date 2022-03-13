@@ -1,0 +1,38 @@
+type Group  {
+    id         : Int!
+    user_id     : Int!
+    name       : String!
+    slug       : String!
+    description: String!
+    tags       : [Tag!]
+    created_at  : Time
+    updated_at  : Time
+}
+
+input AddGroupInput  {
+    name       : String! @range(min: 3, max: 64)
+    description : String! @range(min: 8, max: 2000)
+    tags       : [Int!]! @range(min: 1, max: 5)
+}
+
+input EditGroupInput  {
+    name       : String! @range(min: 3, max: 64)
+    description : String! @range(min: 8, max: 2000)
+    tags       : [Int!]! @range(min: 1, max: 5)
+}
+
+type GroupsWithPagination {
+    items: [Group!]
+    pagination: Pagination!
+}
+
+extend type Query {
+    showGroups(o: OptionsInput): GroupsWithPagination!
+    showGroup(groupID: Int!): Group!
+}
+
+extend type Mutation {
+    addGroup(g: AddGroupInput!): Group!
+    editGroup(g: EditGroupInput!): Group!
+    deleteGroup(id: Int!): Boolean # Boolean instead null
+}

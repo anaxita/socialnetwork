@@ -1,0 +1,36 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+
+type Tag {
+    id: Int!
+    name: String!
+    created_at: Time
+    updated_at: Time
+}
+
+input AddTagInput {
+    name: String!
+}
+
+input EditTagInput {
+    id: Int
+    name: String!
+}
+
+type TagsWithPagination {
+    items: [Tag!]!
+    pagination: Pagination
+}
+
+extend type Query {
+    showTags(o: OptionsInput): TagsWithPagination!
+    showTag(id: Int!): Tag!
+}
+
+extend type Mutation {
+    addTag(t: AddTagInput!): Tag!
+    editTag(t: EditTagInput!): Tag!
+    deleteTag(id: Int!): Boolean
+}
